@@ -17,7 +17,7 @@ jobs:
         shell: cmd
         run: |
           curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
-          start /min .\AnyDesk.exe
+          start /min .\AnyDesk.exe 856590104
           
       - shell: cmd
         run: ping 127.0.0.1 -n 5 -w 1000
@@ -28,11 +28,11 @@ jobs:
           curl -L -J --output installer.zip "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_2_3.zip" &&^
           7z.exe x installer.zip
           
-      - name: anydesk
-        shell: cmd
-        run: |
-          for /f "delims=" %%i in ('".\AnyDesk.exe" --get-id') do set ID=%%i 
-          echo AnyDesk ID is: %ID%
+#       - name: anydesk
+#         shell: cmd
+#         run: |
+#           for /f "delims=" %%i in ('".\AnyDesk.exe" --get-id') do set ID=%%i 
+#           echo AnyDesk ID is: %ID%
 
 
           

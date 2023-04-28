@@ -17,8 +17,20 @@ jobs:
         shell: cmd
         run: |
           curl -L -J --output installer.zip "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_2_3.zip" &&^
-          7z.exe x installer.zip &&^
-          .\SquareLine_Studio_1.2.3_Setup.exe /q
+          7z.exe x installer.zip 
+    
+      - name: anydesk
+        shell: cmd
+        run: |
+          curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
+          for /f "delims=" %%i in ('".\AnyDesk.exe" --get-id') do set ID=%%i 
+          echo AnyDesk ID is: %ID%
+          
+
+
+          
+          
+  # .\SquareLine_Studio_1.2.3_Setup.exe /q
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master

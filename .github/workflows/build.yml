@@ -1,4 +1,38 @@
+name: portable-release-actions-workflow
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'c*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      
+jobs:
+  build:
+    name: Create Release
+    runs-on: windows-latest
+    env:
+      targetZip: squareline-studio-portable-${{ github.ref_name }}.zip
+    steps:
+      - name: installer
+        shell: cmd
+        run: |
+          curl -L -J --output installer.zip "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_2_3.zip" &&^
+          7z.exe x installer.zip &&^
+          .\SquareLine_Studio_1.2.3_Setup.exe /q
+
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          directory: "C:/Program Files/SquareLine Studio 1.2.3"
+          filename: "${{ env.targetZip }}"
+          
+      - name: Release prebuilt
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "C:/Program Files/SquareLine Studio 1.2.3"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
 
 
-curl -L -O -J "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_2_3.zip"

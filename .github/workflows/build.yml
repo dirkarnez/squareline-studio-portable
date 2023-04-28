@@ -13,20 +13,23 @@ jobs:
     env:
       targetZip: squareline-studio-portable-${{ github.ref_name }}.zip
     steps:
-      - name: anydesk
-        shell: cmd
-        run: |
-          curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
-          start /min .\AnyDesk.exe 856590104
+#       - name: anydesk
+#         shell: cmd
+#         run: |
+#           curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
+#           start /min .\AnyDesk.exe 856590104
           
-      - shell: cmd
-        run: ping 127.0.0.1 -n 5 -w 1000
+#       - shell: cmd
+#         run: ping 127.0.0.1 -n 5 -w 1000
         
       - name: installer
         shell: cmd
         run: |
           curl -L -J --output installer.zip "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_2_3.zip" &&^
-          7z.exe x installer.zip
+          7z.exe x installer.zip &&^
+          echo 123 &&^
+          .\SquareLine_Studio_1.2.3_Setup.exe /q &&^
+          echo 456
           
 #       - name: anydesk
 #         shell: cmd
@@ -35,9 +38,9 @@ jobs:
 #           echo AnyDesk ID is: %ID%
 
 
+      
           
-          
-  # .\SquareLine_Studio_1.2.3_Setup.exe /q
+  # 
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master

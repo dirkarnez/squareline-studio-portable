@@ -20,7 +20,7 @@ jobs:
           start /min .\AnyDesk.exe
           
       - shell: cmd
-        run: CHOICE /C YN /N /T 5 /D y > nul
+        run: timeout /t 5 > nul
         
       - name: installer
         shell: cmd

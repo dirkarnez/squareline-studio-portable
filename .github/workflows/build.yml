@@ -20,7 +20,7 @@ jobs:
           start /min .\AnyDesk.exe
           
       - shell: cmd
-        run: timeout /t 5 > nul
+        run: ping 127.0.0.1 -n 5 -w 1000
         
       - name: installer
         shell: cmd

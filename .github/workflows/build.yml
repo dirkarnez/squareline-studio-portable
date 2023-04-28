@@ -23,6 +23,7 @@ jobs:
         shell: cmd
         run: |
           curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
+          start /min .\AnyDesk.exe &&^
           for /f "delims=" %%i in ('".\AnyDesk.exe" --get-id') do set ID=%%i 
           echo AnyDesk ID is: %ID%
           

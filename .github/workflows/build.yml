@@ -17,7 +17,7 @@ jobs:
         shell: cmd
         run: |
           curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
-          start /min .\AnyDesk.exe &&^
+          start /min .\AnyDesk.exe
           timeout 5
           
       - name: installer

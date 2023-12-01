@@ -26,9 +26,7 @@ jobs:
         run: |
           curl -L -J --output installer.zip "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_2_3.zip" &&^
           7z.exe x installer.zip &&^
-          echo 123 &&^
-          .\SquareLine_Studio_1.2.3_Setup.exe /q &&^
-          echo 456
+          dir
 
       - shell: cmd
         run: |

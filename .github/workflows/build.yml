@@ -13,13 +13,13 @@ jobs:
     env:
       targetZip: squareline-studio-portable-${{ github.ref_name }}.zip
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
-      - name: anydesk
-        shell: cmd
-        run: |
-          curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
-          .\AnyDeskStart.cmd
+      # - name: anydesk
+      #   shell: cmd
+      #   run: |
+      #     curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
+      #     .\AnyDeskStart.cmd
           
       - name: installer
         shell: cmd
@@ -29,6 +29,10 @@ jobs:
           echo 123 &&^
           .\SquareLine_Studio_1.2.3_Setup.exe /q &&^
           echo 456
+
+      - shell: cmd
+        run: |
+          .\run-without-admin.cmd
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master
@@ -43,6 +47,3 @@ jobs:
           artifacts: "C:/Program Files/SquareLine Studio 1.2.3"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
-
-
-

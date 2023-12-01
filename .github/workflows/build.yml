@@ -32,7 +32,7 @@ jobs:
         run: |
           reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f &&^
           echo disabled &&^
-          .\run-without-admin.cmd
+          .\SquareLine_Studio_1.2.3_Setup.exe /s /d "%cd%\installation" &&^
           echo done
 
       - name: Archive Release

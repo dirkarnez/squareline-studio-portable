@@ -43,6 +43,7 @@ jobs:
         run: |
           set CURRENT=%cd%
           echo %CURRENT% &&^
+          reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f &&^
           .\bin\x64\Release\Elevate.exe -wait reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f &&^
           echo disabled &&^
           .\bin\x64\Release\Elevate.exe -wait .\SquareLine_Studio_1.2.3_Setup.exe /s /d "%CURRENT%\installation" &&^

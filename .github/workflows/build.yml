@@ -44,7 +44,8 @@ jobs:
           reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f &&^
           echo disabled &&^
           .\bin\x64\Release\Elevate.exe .\SquareLine_Studio_1.2.3_Setup.exe /s /d "%cd%\installation" &&^
-          echo done
+          echo done &&^
+          dir
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master

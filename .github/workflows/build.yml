@@ -46,9 +46,10 @@ jobs:
           reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f &&^
           .\bin\x64\Release\Elevate.exe -wait reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f &&^
           echo disabled &&^
-          set __COMPAT_LAYER=RUNASINVOKER
-          .\bin\x64\Release\Elevate.exe -wait .\SquareLine_Studio_1.2.3_Setup.exe /s /d "%CURRENT%\installation" &&^
+          mkdir C:\installation &&^
+          .\bin\x64\Release\Elevate.exe -wait .\SquareLine_Studio_1.2.3_Setup.exe /s /d "C:\installation" &&^
           echo done &&^
+          cd /d C:\ &&^
           dir
           
       - name: Archive Release

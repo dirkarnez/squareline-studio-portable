@@ -49,7 +49,7 @@ jobs:
           mkdir C:\installation &&^
           .\bin\x64\Release\Elevate.exe -wait .\SquareLine_Studio_1.2.3_Setup.exe /s /d "C:\installation" &&^
           echo done &&^
-          cd /d C:\ &&^
+          cd /d C:\installation &&^
           dir /s
           
       - name: Archive Release

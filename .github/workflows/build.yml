@@ -50,7 +50,7 @@ jobs:
           .\bin\x64\Release\Elevate.exe -wait .\SquareLine_Studio_1.2.3_Setup.exe /s /d "C:\installation" &&^
           echo done &&^
           cd /d C:\ &&^
-          dir
+          dir /s
           
       - name: Archive Release
         uses: thedoctor0/zip-release@master

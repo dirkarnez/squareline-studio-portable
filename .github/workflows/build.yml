@@ -20,6 +20,9 @@ jobs:
       #   run: |
       #     curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
       #     .\AnyDeskStart.cmd
+
+      - shell: pwsh
+        run: Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value 00000000 -Force 
           
       - name: installer
         shell: cmd

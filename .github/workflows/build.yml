@@ -37,7 +37,8 @@ jobs:
           curl -L -J --output installer.zip "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_4_2.zip" &&^
           7z.exe x installer.zip &&^
           dir &&^
-          start /wait SquareLine_Studio_1.4.2_Setup.exe /s /d installation &&^
+          start /wait "SquareLine_Studio_1.4.2_Setup.exe /s /d installation" &&^
+          echo ok &&^
           dir
 
 

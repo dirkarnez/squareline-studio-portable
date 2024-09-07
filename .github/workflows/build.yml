@@ -34,6 +34,8 @@ jobs:
           7z.exe x elevate.zip &&^
           .\bin\x64\Release\Elevate.exe -wait reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f &&^
           echo disabled &&^
+          curl -L --output VC_redist.x64.exe "https://download.visualstudio.microsoft.com/download/pr/32627d38-bc92-4f7c-b4e2-72595c3d6dbc/BC34373DB78FD734657BFA7BD1E612C8B1B46DD467967F33E0044CA66FFA1892/VC_redist.x64.exe" &&^
+          start /wait ".\VC_redist.x64.exe /q /norestart" &&^
           curl -L -J --output installer.zip "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_4_2.zip" &&^
           7z.exe x installer.zip &&^
           dir &&^

@@ -29,6 +29,8 @@ jobs:
         run: |
           set CURRENT=%cd%
           echo %CURRENT% &&^
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" /v DisableMSI /t REG_DWORD /d 2 /f &&^
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" /v EnableAdminTSRemote /t REG_DWORD /d 0 /f &&^
           reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f &&^
           curl -L -J --output elevate.zip "https://github.com/jpassing/elevate/releases/download/1.0/elevate.zip" &&^
           7z.exe x elevate.zip &&^

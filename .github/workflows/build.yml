@@ -1,0 +1,120 @@
+name: portable-release-actions-workflow
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'c*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      
+jobs:
+  build:
+    name: Create Release
+    runs-on: windows-latest
+    env:
+      targetZip: squareline-studio-portable-${{ github.ref_name }}.zip
+    steps:
+      - uses: actions/checkout@v4
+
+      - shell: cmd
+        run: |
+          curl https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_5_0.zip -L --output installer.zip &&^
+          7z.exe x installer.zip &&^
+          dir
+          
+      - shell: cmd
+        run: |
+          curl https://github.com/dirkarnez/exec-timeout/releases/download/v1.0.0/exec-timeout-v1.0.0-windows-latest.zip -L -O &&^
+          7z x exec-timeout-v1.0.0-windows-latest.zip &&^
+          dir &&^
+          exec-timeout.exe 0 "%CD%\SquareLine_Studio_1.5.0_Setup.exe" /s /CU /N /D installation &&^
+          dir /s
+
+      # - shell: cmd
+      #   run: |
+      #     echo extraction done
+      #     set CURRENT_DIRECTORY=%CD%
+      #     cd /d "C:\Program Files\SquareLine Studio 1.5.0" &&^
+      #     dir &&^
+      #     7z.exe -v100m a -tzip "%CURRENT_DIRECTORY%\${{ env.targetZip }}" . &&^
+      #     echo completed
+          
+      
+      # - name: anydesk
+      #   shell: cmd
+      #   run: |
+      #     curl -L -O -J https://download.anydesk.com/AnyDesk.exe &&^
+      #     .\AnyDeskStart.cmd
+
+      # - shell: pwsh
+      #   run: Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value 00000000 -Force 
+          
+      # - name: installer
+      #   shell: cmd
+      #   run: |
+      #     set CURRENT=%cd%
+      #     echo %CURRENT% &&^
+      #     reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" /v DisableMSI /t REG_DWORD /d 2 /f &&^
+      #     reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" /v EnableAdminTSRemote /t REG_DWORD /d 0 /f &&^
+      #     reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f &&^
+      #     curl -L -J --output elevate.zip "https://github.com/jpassing/elevate/releases/download/1.0/elevate.zip" &&^
+      #     7z.exe x elevate.zip &&^
+      #     .\bin\x64\Release\Elevate.exe -wait reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f &&^
+      #     echo disabled &&^
+      #     curl -L --output VC_redist.x64.exe "https://download.visualstudio.microsoft.com/download/pr/32627d38-bc92-4f7c-b4e2-72595c3d6dbc/BC34373DB78FD734657BFA7BD1E612C8B1B46DD467967F33E0044CA66FFA1892/VC_redist.x64.exe" &&^
+      #     start /wait .\VC_redist.x64.exe /q /norestart &&^
+      #     curl -L -J --output installer.zip "https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_4_2.zip" &&^
+      #     7z.exe x installer.zip &&^
+      #     dir &&^
+      #     .\bin\x64\Release\Elevate.exe -wait SquareLine_Studio_1.4.2_Setup.exe /s /d installation &&^
+      #     echo ok &&^
+      #     dir
+
+
+          
+      # - name: elevate
+      #   shell: cmd
+      #   run: |
+      #     curl -L -J --output elevate.zip "https://github.com/jpassing/elevate/releases/download/1.0/elevate.zip" &&^
+      #     7z.exe x elevate.zip &&^
+      #     dir
+          
+          
+  # set "params=%*"
+  # cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && ""%~s0"" %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B ) &&^
+  
+
+
+      # - name: Run as Admin
+      #   run: |
+      #     whoami
+      #     $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
+      #     echo "myWindowsID=$myWindowsID"
+      #     $myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
+      #     echo "myWindowsPrincipal=$myWindowsPrincipal"
+      #     $adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
+      #     if ($myWindowsPrincipal.IsInRole($adminRole)) `
+      #     { 
+      #       echo "is admin" 
+      #       $passThruArgs = '-NoProfile -ExecutionPolicy Bypass -command', '&', "$env:GITHUB_WORKSPACE\SquareLine_Studio_1.2.3_Setup.exe", "/s", "/d", "installation"; `
+      #       Start-Process powershell -Wait -Verb RunAs -ArgumentList $passThruArgs; `
+      #     } `
+      #     else { `
+      #       echo "is not admin"; `
+      #     }`
+      
+      - shell: cmd
+        run: xcopy /H /Y /C "SquareLine_Studio.exe.Portable.cmd" "installation\"
+          
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          directory: "installation"
+          filename: "${{ env.targetZip }}"
+          
+      - name: Release prebuilt
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "installation/${{ env.targetZip }}"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}

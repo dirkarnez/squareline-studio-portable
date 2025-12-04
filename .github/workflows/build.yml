@@ -17,7 +17,7 @@ jobs:
 
       - shell: cmd
         run: |
-          curl https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_5_0.zip -L --output installer.zip &&^
+          curl https://static.squareline.io/downloads/SquareLine_Studio_Windows_v1_5_4.zip -L --output installer.zip &&^
           7z.exe x installer.zip &&^
           dir
           
@@ -26,7 +26,7 @@ jobs:
           curl https://github.com/dirkarnez/exec-timeout/releases/download/v1.0.0/exec-timeout-v1.0.0-windows-latest.zip -L -O &&^
           7z x exec-timeout-v1.0.0-windows-latest.zip &&^
           dir &&^
-          exec-timeout.exe 0 "%CD%\SquareLine_Studio_1.5.0_Setup.exe" /s /CU /N /D installation &&^
+          exec-timeout.exe 0 "%CD%\SquareLine_Studio_1.5.4_Setup.exe" /s /CU /N /D installation &&^
           dir /s
 
       # - shell: cmd
